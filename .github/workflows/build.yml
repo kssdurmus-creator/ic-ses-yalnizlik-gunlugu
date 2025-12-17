@@ -10,26 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.6"
-          channel: "stable"
+          channel: stable
 
-      - name: Flutter doctor
-        run: flutter doctor -v
-
-      - name: Ensure Flutter project exists
+      - name: Clean workspace
         run: |
-          if [ ! -d "android" ]; then
-            flutter create \
-              --platforms=android \
-              --org com.icses.yalnizlik \
-              --project-name ic_ses_yalnizlik_gunlugu .
-          fi
+          rm -rf android ios linux macos windows web
+
+      - name: Create Flutter Android project
+        run: |
+          flutter create \
+            --platforms=android \
+            --org com.icses.yalnizlik \
+            --project-name ic_ses_yalnizlik_gunlugu .
 
       - name: Get dependencies
         run: flutter pub get
