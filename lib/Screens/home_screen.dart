@@ -1,79 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final FlutterTts _tts = FlutterTts();
+  final TextEditingController _controller = TextEditingController();
+
+  Future<void> speak(String text) async {
+    await _tts.setLanguage("tr-TR");
+    await _tts.setSpeechRate(0.45);
+    await _tts.setPitch(0.9);
+    await _tts.speak(text);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-
-              const Text(
-                "İç Ses",
-                style: TextStyle(
-                  fontSize: 34,
-                  fontWeight: FontWeight.bold,
+      appBar: AppBar(
+        title: const Text("İç Ses"),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Text(
+              "Yalnızlık Günlüğü",
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.greenAccent,
+              ),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              controller: _controller,
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: "İç sesini yaz...",
+                filled: true,
+                fillColor: Colors.black26,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
-
-              const Text(
-                "Yalnızlık Günlüğü",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.volume_up),
+              label: const Text("İç Sesini Dinle"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.black,
+                minimumSize: const Size.fromHeight(50),
               ),
-
-              const SizedBox(height: 40),
-
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1A1A1A),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: const Text(
-                    "“Sessizlik bazen insanın kendisiyle konuştuğu tek yerdir.”",
-                    style: TextStyle(
-                      fontSize: 18,
-                      height: 1.6,
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _actionButton("Yaz", Icons.edit),
-                  _actionButton("Dinle", Icons.headphones),
-                ],
-              ),
-            ],
-          ),
+              onPressed: () {
+                if (_controller.text.isNotEmpty) {
+                  speak(_controller.text);
+                }
+              },
+            ),
+          ],
         ),
       ),
-    );
-  }
-
-  Widget _actionButton(String text, IconData icon) {
-    return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.black,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      ),
-      icon: Icon(icon),
-      label: Text(text),
-      onPressed: () {},
     );
   }
 }
