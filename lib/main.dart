@@ -27,18 +27,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FlutterTts tts = FlutterTts();
 
-  @override
-  void initState() {
-    super.initState();
-    tts.speak("Merhaba, iç ses uygulaması çalışıyor.");
+  speak() async {
+    await tts.setLanguage("tr-TR");
+    await tts.speak("Bu benim iç ses uygulamam");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("İç Ses")),
-      body: const Center(
-        child: Text("Yalnız değilsin"),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: speak,
+          child: const Text("İç Ses Konuş"),
+        ),
       ),
     );
   }
