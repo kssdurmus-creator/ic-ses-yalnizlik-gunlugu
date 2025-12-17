@@ -1,5 +1,5 @@
 name: ic_ses_yalnizlik_gunlugu
-description: Derin felsefi iç ses ve yalnızlık günlüğü
+description: Ic Ses – Yalnızlık Günlüğü
 publish_to: "none"
 
 version: 1.0.0+1
@@ -11,7 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
-  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
 
 flutter:
   uses-material-design: true
