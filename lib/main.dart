@@ -1,40 +1,29 @@
 import 'package:flutter/material.dart';
+import 'screens/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const IcSesApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class IcSesApp extends StatelessWidget {
+  const IcSesApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'İç Ses - Yalnızlık Günlüğü',
-      theme: ThemeData.dark(useMaterial3: true),
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: Text(
-          'İç Sesini Dinle',
-          style: TextStyle(
-            color: Colors.grey.shade300,
-            fontSize: 28,
-            fontWeight: FontWeight.w300,
-          ),
+      title: 'İç Ses',
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.green,
+        scaffoldBackgroundColor: const Color(0xFF0E1B13),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.green,
+          brightness: Brightness.dark,
         ),
+        useMaterial3: true,
       ),
+      home: const HomeScreen(),
     );
   }
 }
