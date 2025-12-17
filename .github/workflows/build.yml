@@ -12,15 +12,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.6"
-          channel: stable
 
-      - name: Clean workspace
+      - name: Clean folders
         run: |
-          rm -rf android ios linux macos windows web
+          rm -rf android ios web linux macos windows
 
       - name: Create Flutter Android project
         run: |
@@ -29,14 +34,17 @@ jobs:
             --org com.icses.yalnizlik \
             --project-name ic_ses_yalnizlik_gunlugu .
 
+      - name: Flutter clean
+        run: flutter clean
+
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build release APK
-        run: flutter build apk --release
+      - name: Build DEBUG APK
+        run: flutter build apk --debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: ic-ses-yalnizlik-gunlugu-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
