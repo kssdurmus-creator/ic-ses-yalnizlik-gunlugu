@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 
 void main() {
-  runApp(const IcSesGunluguApp());
+  runApp(const IcSesApp());
 }
 
-class IcSesGunluguApp extends StatelessWidget {
-  const IcSesGunluguApp({super.key});
+class IcSesApp extends StatelessWidget {
+  const IcSesApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'İç Ses Günlüğü',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF0F0F0F),
-        useMaterial3: true,
-      ),
+      title: 'İç Ses',
+      theme: ThemeData.dark(),
       home: const HomePage(),
     );
   }
@@ -31,42 +26,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final FlutterTts _tts = FlutterTts();
   final TextEditingController _controller = TextEditingController();
+  String _icSes = "Merhaba";
 
-  @override
-  void initState() {
-    super.initState();
-    _setupTts();
-    _ilkKonusma();
-  }
+  void _konus() {
+    if (_controller.text.trim().isEmpty) return;
 
-  Future<void> _setupTts() async {
-    await _tts.setLanguage("tr-TR");
-    await _tts.setSpeechRate(0.45);
-    await _tts.setPitch(1.0);
-  }
-
-  Future<void> _ilkKonusma() async {
-    await Future.delayed(const Duration(milliseconds: 800));
-    await _tts.speak(
-      "Merhaba. Ben senin iç sesinim. Buradayım. Yazabilirsin.",
-    );
-  }
-
-  Future<void> _konus() async {
-    final text = _controller.text.trim();
-    if (text.isEmpty) return;
-
-    await _tts.stop();
-    await _tts.speak(text);
-  }
-
-  @override
-  void dispose() {
-    _tts.stop();
-    _controller.dispose();
-    super.dispose();
+    setState(() {
+      _icSes = _controller.text;
+      _controller.clear();
+    });
   }
 
   @override
@@ -75,46 +44,39 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("İç Ses Günlüğü"),
         centerTitle: true,
-        backgroundColor: Colors.black,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Expanded(
-              child: TextField(
-                controller: _controller,
-                maxLines: null,
-                expands: true,
-                style: const TextStyle(fontSize: 18),
-                decoration: InputDecoration(
-                  hintText: "İçinden geçenleri buraya yaz...",
-                  hintStyle: TextStyle(color: Colors.grey.shade600),
-                  filled: true,
-                  fillColor: const Color(0xFF1A1A1A),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
+              child: Center(
+                child: Text(
+                  _icSes,
+                  style: const TextStyle(fontSize: 22),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            TextField(
+              controller: _controller,
+              maxLines: null,
+              decoration: InputDecoration(
+                hintText: "İçinden geçenleri buraya yaz...",
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
-              height: 56,
+              height: 48,
               child: ElevatedButton(
                 onPressed: _konus,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green.shade700,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                child: const Text(
-                  "İÇ SES OKUSUN",
-                  style: TextStyle(fontSize: 18),
-                ),
+                child: const Text("İÇ SES KONUŞ"),
               ),
             ),
           ],

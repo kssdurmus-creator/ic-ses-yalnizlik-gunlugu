@@ -1,6 +1,6 @@
 name: ic_ses_yalnizlik_gunlugu
-description: Ic ses gunlugu uygulamasi
-publish_to: 'none'
+description: Ic Ses Gunlugu uygulamasi
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_tts: ^3.8.5
 
 flutter:
   uses-material-design: true
