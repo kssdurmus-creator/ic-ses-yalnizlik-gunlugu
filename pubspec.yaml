@@ -1,19 +1,14 @@
 name: ic_ses_yalnizlik_gunlugu
-description: Ic Ses – Yalnızlık Günlüğü
-publish_to: "none"
+description: Ic Ses - Yalnizlik Gunlugu
+publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.6
-
-dev_dependencies:
-  flutter_test:
     sdk: flutter
 
 flutter:
