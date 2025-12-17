@@ -1,10 +1,9 @@
-name: Build Flutter Android APK
+name: Build Android APK
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,14 +22,14 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.3'
           channel: 'stable'
           cache: true
 
       - name: Flutter doctor
         run: flutter doctor -v
 
-      - name: Install dependencies
+      - name: Get dependencies
         run: flutter pub get
 
       - name: Build DEBUG APK
@@ -42,11 +41,11 @@ jobs:
       - name: Upload DEBUG APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-apk
+          name: debug-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
 
       - name: Upload RELEASE APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-apk
+          name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
