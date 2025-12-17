@@ -1,36 +1,44 @@
 name: Build Flutter APK
 
-on: push: branches: [ "main" ] pull_request: branches: [ "main" ]
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
 
-jobs: build: runs-on: ubuntu-latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-steps:
-  - name: Checkout repo
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  - name: Set up Flutter
-    uses: subosito/flutter-action@v2
-    with:
-      channel: stable
-      flutter-version: 3.19.6
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.19.6"
+          channel: "stable"
 
-  - name: Flutter doctor
-    run: flutter doctor -v
+      - name: Flutter doctor
+        run: flutter doctor -v
 
-  - name: Create Flutter project if missing
-    run: |
-      if [ ! -d "android" ]; then
-        flutter create . --project-name ic_ses_yalnizlik_gunlugu
-      fi
+      - name: Ensure Flutter project exists
+        run: |
+          if [ ! -d "android" ]; then
+            flutter create \
+              --platforms=android \
+              --org com.icses.yalnizlik \
+              --project-name ic_ses_yalnizlik_gunlugu .
+          fi
 
-  - name: Install dependencies
-    run: flutter pub get
+      - name: Get dependencies
+        run: flutter pub get
 
-  - name: Build release APK
-    run: flutter build apk --release
+      - name: Build release APK
+        run: flutter build apk --release
 
-  - name: Upload APK
-    uses: actions/upload-artifact@v4
-    with:
-      name: app-release-apk
-      path: build/app/outputs/flutter-apk/app-release.apk
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ic-ses-yalnizlik-gunlugu-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
