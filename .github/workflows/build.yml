@@ -3,7 +3,6 @@ name: Build Flutter APK
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch:
 
 jobs:
   build:
@@ -16,13 +15,14 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          flutter-version: '3.19.6'
+          channel: 'stable'
+
+      - name: Flutter doctor
+        run: flutter doctor
 
       - name: Create Flutter project if missing
-        run: |
-          if [ ! -d "android" ]; then
-            flutter create .
-          fi
+        run: flutter create .
 
       - name: Install dependencies
         run: flutter pub get
@@ -33,5 +33,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: release-apk
+          name: ic-ses-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
