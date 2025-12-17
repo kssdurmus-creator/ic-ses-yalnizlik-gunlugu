@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -12,6 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'İç Ses',
+      theme: ThemeData.dark(),
       home: const HomePage(),
     );
   }
@@ -27,19 +30,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FlutterTts tts = FlutterTts();
 
-  speak() async {
+  Future<void> konus() async {
     await tts.setLanguage("tr-TR");
-    await tts.speak("Bu benim iç ses uygulamam");
+    await tts.setSpeechRate(0.45);
+    await tts.speak("Yalnız değilsin. Buradayım.");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("İç Ses")),
+      appBar: AppBar(title: const Text("İç Ses Günlüğü")),
       body: Center(
         child: ElevatedButton(
-          onPressed: speak,
-          child: const Text("İç Ses Konuş"),
+          onPressed: konus,
+          child: const Text("İç Ses Konuşsun"),
         ),
       ),
     );
